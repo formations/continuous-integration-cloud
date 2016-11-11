@@ -39,7 +39,7 @@ image::github-fork.png[Exemple de projet _forké_,500,66,align="center"]
 
 === Récupérer le projet
 
-Cloner le dépôt Git:: `git clone https://github.com/formations/angular-comics.git`
+Cloner le dépôt Git:: `git clone https://github.com/<username>/angular-comics.git`
 Changer de branche:: `git checkout solution`
 Créer une nouvelle branche:: `git checkout -b ci`
 
