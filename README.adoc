@@ -1,0 +1,212 @@
+= Travaux pratiques d'Intégration Continue dans le Cloud
+Nicolas Frankel
+:doctype: article
+:encoding: utf-8
+:lang: fr
+:toc: macro
+:sectanchors:
+:numbered:
+:icons: font
+:experimental:
+:imagesdir: images
+
+****
+Ce cours est mis à disposition selon les termes de la http://creativecommons.org/licenses/by-nc-sa/4.0/[Licence Creative Commons Attribution - Pas d’Utilisation Commerciale - Partage dans les Mêmes Conditions 4.0 International^].
+
+image::https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png[Licence Creative Commons, link="http://creativecommons.org/licenses/by-nc-sa/4.0/"]
+****
+
+toc::[]
+
+== Références
+
+* https://docs.travis-ci.com/[Documentation de Travis CI [EN\]^]
+
+== Mise en place
+
+Le _workshop_  se base sur le projet https://github.com/formations/angular-comics[Angular Comics^]
+
+=== _Forker_ le projet
+
+Travis CI ne fonctionne que sur des projets disponibles dans votre propre dépôt.
+
+* Se rendre sur la page du https://github.com/formations/angular-comics[projet Angular Comics]
+* Cliquer sur le bouton btn:[Fork] en haut à gauche
+* Se rendre sur son propre compte Github
+* Vérifier la présence du projet Angular Comics sur son propre dépôt
++
+image::github-fork.png[Exemple de projet _forké_,500,66,align="center"]
+
+=== Récupérer le projet
+
+Cloner le dépôt Git:: `git clone https://github.com/<username>/angular-comics.git`
+Changer de branche:: `git checkout solution`
+Créer une nouvelle branche:: `git checkout -b ci`
+
+=== S'inscrire sur Travis CI
+
+L'outil d'intégration continue utilisé dans le cadre de ce _workshop_ est Travis CI.
+
+* Se rendre sur https://travis-ci.org[Travis CI^]
+* Cliquer sur le bouton btn:[Sign up with Github]
+* Renseigner les _credentials_ de Github
+* Accepter les diverses conditions
+* Cocher le projet angular-comics
++
+image::travis-projects-choice.png[Choix des projets,670,585,align="center"]
+
+=== Configurer le projet
+
+Configurer le projet de sorte que :
+
+* il ne soit construit que si un fichier `.travis.yml` est présent
+* il soit construit à chaque _push_
+
+image::travis-project-settings.png[Paramétrage du projet,709,252,align="center"]
+
+== Premiers pas
+
+L'outil de construction Travis CI se base sur la présence d'un fichier `.travis.yml` à la racine du projet.
+
+Créer un fichier de configuration vide:: `touch .travis.yml`
+Créer un _commit_ à partir de ce fichier::
+  * `git add .`
+  * `git commit -m "Add Travis CI configuration file"`
+Pousser sur Github::
+  En prenant soin de bien rester sur la branche `ci` précédemment créée, `git push origin HEAD`
++
+Vérifier le résultat::
+  Se rendre sur Travis CI. La construction a échoué.
++
+image::travis-build-failed.png[Build échoué,873,270,align="center"]
++
+Analyser la configuration::
+  * Consulter l'onglet btn:[View Config] :
++
+[source,json]
+----
+{
+  "language": "ruby",
+  "group": "stable",
+  "dist": "precise",
+  "os": "linux"
+}
+----
+  * Qu'en déduire ?
+
+== Configurer la construction
+
+L'objectif de cette section est de disposer d'un fichier de configuration de Travis CI qui permette de valider l'intégralité de la chaîne de construction.
+
+=== Configurer le langage et sa version
+
+Travis CI permet de configurer le langage du projet et sa version. Trouver l'option appropriée pour Angular Comics parmi https://docs.travis-ci.com/user/languages/[les possibilités offertes^]. Configurer celui-ci et la version correcte.
+
+Puis, comme dans l'étape précédente, pousser la modification sur Github et vérifier le résultat de la construction : il doit être un succès.
+
+image::travis-build-success.png[Build échoué,759,271,align="center"]
+
+=== Configurer le script
+
+Vérifier la trace de la construction:: Consulter l'onglet btn:[Job log]. Bien que la construction soit un succès, une erreur apparaît dans la log :
++
+----
+$ npm test
+> ComicsLibrary@ test /home/travis/build/formations/angular-comics
+> echo 'Error: no test specified'
+Error: no test specified
+The command "npm test" exited with 0.
+Done. Your build exited with 0.
+----
+Lire la documentation:: A l'aide de la https://docs.travis-ci.com/user/languages/javascript-with-nodejs#Default-Test-Script[documentation^], analyser la raison qui cause l'erreur dans la trace.
+Corriger la configuration de construction:: Dans un premier temps, remplacer l'appel par défaut par la commande `grunt`.
+Déterminer le résultat attendu:: Analyser le fichier `Gruntfile.js` pour déterminer ce que fait la commande `grunt` (sans argument).
+
+Pousser la modification comme précédemment et vérifier le résultat.
+
+=== Exécuter les tests unitaires
+
+1. Localiser dans le fichier `Gruntfile.js` la commande qui exécute les tests unitaires
+2. Remplacer la commande `grunt` qui n'exécute que la construction par cette dernière
+3. Vérifier le résultat.
+4. Analyser la cause de l'erreur.
+5. A l'aide https://docs.travis-ci.com/user/customizing-the-build/#The-Build-Lifecycle[la documentation^], corriger celle-ci.
+
+=== Mettre les dépendances en cache
+
+Par défaut, les dépendances NPM et Bower sont téléchargées à chaque construction. A l'aide de https://docs.travis-ci.com/user/caching/#Arbitrary-directories[la documentation], configurer le cache pour qu'il réutilise ces dépendances entre 2 constructions.
+
+=== Déployer les archives
+
+L'objectif de cette section est de déployer la distribution sur Github via l'outil de construction.
+
+Récupérer la cible de création des archives:: Analyser le fichier `Gruntfile.js` pour trouver la cible qui permet de générer l'archive de distribution.
+Ajouter la création des archives:: Dans le fichier `.travis.yml`, ajouter à la commande grunt de test la cible de génération de l'archive.
+Créer un jeton d'accès Github:: Afin que Travis puisse déployer sur Github, il est nécessaire de lui donner les permissions nécessaires. Dans le monde web, cela passe par une authentification via un jeton d'accès passé à chaque requête. Pour ce faire :
++
+  * Aller dans menu:Settings[Developer Settings > https://github.com/settings/tokens[Personal access tokens^]].
+  * Cliquer sur btn:[https://github.com/settings/tokens/new[Generate new token^]]
+  * Si nécessaire, remplir le mot de passe dans la mire qui s'ouvre
+  * Remplir la description avec un libellé pertinent, par exemple "Travis CI - Déploiement sur Github"
+  * Cocher la case btn:[repo]
+  * Puis cliquer sur btn:[Generate token]
+  * Copier le jeton d'accès dans le presse-papier
++
+[CAUTION]
+====
+Ne pas quitter la page sans avoir bien pris soin de noter le jeton d'accès dans un endroit sécurisé jusqu'à la fin de la procédure. Il sera impossible de récupérer ce jeton une fois la page quittée.
+====
++
+image::github-create-access-token.png[Création du jeton d'accès sous Github,732,336,align="center"]
++
+Gérer le jeton dans Travis:: L'utilisation directe du jeton d'accès dans le fichier `.travis.yml` le rendrait accessible à tous, ce qui pose un problème de sécurité évident. Travis permet de créer des variables d'environnement masquées (y compris dans les logs) qui peuvent être utilisées dans le fichier. Sur la page du projet dans Travis, aller dans menu:More Options[Settings]. Dans le champ "Name", indiquer `GITHUB_API_TOKEN` et dans le champ "Value", le jeton d'accès. Puis cliquer sur btn:[Add].
++
+image::travis-add-secret-env-variable.png[Création d'une variable d'environnement dans Travis,778,374,align="center"]
++
+Créer la section de déploiement:: A l'aide de https://docs.travis-ci.com/user/deployment/releases/[la documentation], créer dans le fichier `.travis.yml` une section pour déployer la distribution lors de la construction.
+Vérifier le résultat dans Github:: Se rendre dans menu:Code[releases]
++
+image::github-new-release-created.png[Nouvelle release dans Github,981,501,align="center"]
+
+## Déploiement sur Github
+
+L'objectif de cette section est de déployer l'application Angular Comics pour qu'elle puisse être exécutée sur Github.
+
+### Configurer le domaine pour l'appel de l'API Marvel
+
+Pour permettre à Github de faire des appels à l'API Marvel, ajouter le domaine `github.io` à la liste des _referrer_ sur le site https://developer.marvel.com/account[developer.marvel.com^].
+
+image::marvel-add-referrer.png[Ajout d'un nouveau referrer,461,211,align="center"]
+
+[WARNING]
+====
+Si le service Angular qui retourne la clé d'API Marvel n'est pas _committé_ dans Github, cette étape n'est pas nécessaire... mais l'application ne pourra pas interagir avec le serveur Marvel.
+====
+
+### Génération du site
+
+Sur Github, les fichiers HTML ne sont pas rendus, seul le code HTML est affiché de sorte que le Javascript n'est pas exécuté. Toutefois, il est possible de rendre le HTML dans le cadre de la fonctionnalité offerte par https://pages.github.com/[Github Pages^].
+
+Pour cela, il suffit :
+
+* de créer une nouvelle branche `gh-pages`
++
+[source,bash]
+----
+git checkout -b gh-pages
+git push origin HEAD
+----
++
+* de pousser les fichiers dans cette branche dédiée
+* de naviguer sur le site `<username>.github.io/<projectname>`
+
+Voici un exemple de script qui permet de gérer de déployer la distribution :
+
+.generate-site.sh
+[source,bash]
+----
+include::https://raw.githubusercontent.com/formations/angular-comics/continuousintegration/generate-site.sh[]
+----
+
+A l'aide de la documentation, intégrer ce script dans le fichier `.travis.yml` pour que chaque construction réussie exécute le script et déploie l'application sur Github Pages.
+
