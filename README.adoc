@@ -11,7 +11,7 @@ Nicolas Frankel
 :imagesdir: images
 
 ****
-Ce cours est mis à disposition selon les termes de la http://creativecommons.org/licenses/by-nc-sa/4.0/[Licence Creative Commons Attribution - Pas d’Utilisation Commerciale - Partage dans les Mêmes Conditions 4.0 International^].
+Ce cours est mis à disposition selon les termes de la http://creativecommons.org/licenses/by-nc-sa/4.0/[Licence Creative Commons Attribution - Pas d’Utilisation Commerciale - Partage dans les Mêmes Conditions 4.0 International].
 
 image::https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png[Licence Creative Commons, link="http://creativecommons.org/licenses/by-nc-sa/4.0/"]
 ****
@@ -30,7 +30,7 @@ Le _workshop_  se base sur le projet https://github.com/formations/angular-comic
 
 Travis CI ne fonctionne que sur des projets disponibles dans votre propre dépôt.
 
-* Se rendre sur la page du https://github.com/formations/angular-comics[projet Angular Comics]
+* Se rendre sur la page du https://github.com/formations/angular-comics[projet Angular Comics^]
 * Cliquer sur le bouton btn:[Fork] en haut à gauche
 * Se rendre sur son propre compte Github
 * Vérifier la présence du projet Angular Comics sur son propre dépôt
@@ -209,4 +209,3 @@ include::https://raw.githubusercontent.com/formations/angular-comics/continuousi
 ----
 
 A l'aide de la documentation, intégrer ce script dans le fichier `.travis.yml` pour que chaque construction réussie exécute le script et déploie l'application sur Github Pages.
-
