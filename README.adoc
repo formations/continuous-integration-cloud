@@ -20,6 +20,7 @@ toc::[]
 
 == Références
 
+* https://docs.travis-ci.com/[Documentation de Travis CI [EN\]]
 
 == Mise en place
 
