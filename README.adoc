@@ -208,10 +208,15 @@ git push origin HEAD
 Voici un exemple de script qui permet de gérer de déployer la distribution :
 
 .generate-site.sh
-[source,bash]
+[source,bash,linenums]
 ----
 include::https://raw.githubusercontent.com/formations/angular-comics/continuousintegration/generate-site.sh[]
 ----
+
+[WARNING]
+====
+Dans le fichier précédent, modifier la ligne 5 en remplaçant "formations" par votre <username>.
+====
 
 A l'aide de la documentation, intégrer ce script dans le fichier `.travis.yml` pour que chaque construction réussie exécute le script et déploie l'application sur Github Pages.
 
