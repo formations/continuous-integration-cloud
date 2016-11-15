@@ -16,6 +16,16 @@ Ce cours est mis à disposition selon les termes de la http://creativecommons.or
 image::https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png[Licence Creative Commons, link="http://creativecommons.org/licenses/by-nc-sa/4.0/"]
 ****
 
+L'objectif de ce _workshop_ est d'utiliser les outils Github (contrôle de version) & Travis CI (construction/intégration continue) pour :
+
+* Gérer les sources d'un projet Angular
+* Et, de manière automatisée :
+1. Construire le livrable
+*** Exécuter les tests via Karma
+*** Vérifier la qualité via JSHint
+1. Stocker l'archive ZIP de distribution sous Github
+1. Déployer l'application sous Github
+
 toc::[]
 
 == Références
