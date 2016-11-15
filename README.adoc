@@ -23,8 +23,8 @@ L'objectif de ce _workshop_ est d'utiliser les outils Github (contrôle de versi
 1. Construire le livrable
 *** Exécuter les tests via Karma
 *** Vérifier la qualité via JSHint
-1. Stocker l'archive ZIP de distribution sous Github
-1. Déployer l'application sous Github
+2. Stocker l'archive ZIP de distribution sous Github
+3. Déployer l'application sous Github
 
 toc::[]
 
