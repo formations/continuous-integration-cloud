@@ -85,12 +85,7 @@ Analyser la configuration::
 +
 [source,json]
 ----
-{
-  "language": "ruby",
-  "group": "stable",
-  "dist": "precise",
-  "os": "linux"
-}
+{}
 ----
   * Qu'en déduire ?
 
