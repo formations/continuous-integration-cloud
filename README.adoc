@@ -40,7 +40,7 @@ image::github-fork.png[Exemple de projet _forké_,500,66,align="center"]
 === Récupérer le projet
 
 Cloner le dépôt Git:: `git clone https://github.com/<username>/angular-comics.git`
-Changer de branche:: `git checkout solution`
+Vérifier la branche:: Normalement, la résultat de la commande `git branch` doit indiquer un astérisque en face de la branche `solution`. Si ce n'est pas le cas, changer de branche à l'aide de la commande `git checkout solution`.
 Créer une nouvelle branche:: `git checkout -b ci`
 
 === S'inscrire sur Travis CI
