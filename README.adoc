@@ -149,8 +149,8 @@ Récupérer la cible de création des archives:: Analyser le fichier `Gruntfile.
 Ajouter la création des archives:: Dans le fichier `.travis.yml`, ajouter à la commande grunt de test la cible de génération de l'archive.
 Créer un jeton d'accès Github:: Afin que Travis puisse déployer sur Github, il est nécessaire de lui donner les permissions nécessaires. Dans le monde web, cela passe par une authentification via un jeton d'accès passé à chaque requête. Pour ce faire :
 +
-  * Aller dans menu:Settings[Developer Settings > link:https://github.com/settings/tokens:[Personal access tokens^]].
-  * Cliquer sur btn:[link:https://github.com/settings/tokens/new:[Generate new token^]]
+  * Aller dans menu:Settings[Developer Settings > https://github.com/settings/tokens[Personal access tokens, window="_blank"]].
+  * Cliquer sur btn:[https://github.com/settings/tokens/new[Generate new token, window="_blank"]]
   * Si nécessaire, remplir le mot de passe dans la mire qui s'ouvre
   * Remplir la description avec un libellé pertinent, par exemple "Travis CI - Déploiement sur Github"
   * Cocher la case btn:[repo]
